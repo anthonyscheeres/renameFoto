@@ -77,8 +77,6 @@ def remove_string(filename, subString, x):
     return "["+x+"]"+filearray[0]+filearray[-1]
 
 
-
-
 def rename_wrapper(filename, dir, x):
     new_file_name = filename
     new_file_name = catch_is_already_not_jfif(filename)
@@ -91,15 +89,10 @@ def rename_wrapper(filename, dir, x):
 
 
 def add_own_name(file_name, x):
-
-  
+    print (file_name)
     subString = get_mirror2(file_name)
-
-    
     new_file_name=remove_string(file_name, subString, x)
-    
     return normalise_string(new_file_name)
-
 
 
 
@@ -127,6 +120,7 @@ def get_mirror(myString):
 def get_mirror2(myString):
 
     if myString.find("[")!=-1:
+        
         mySubString = myString[myString.find("["):myString.find("]")+1]
 
         return mySubString
@@ -139,8 +133,9 @@ def get_mirror2(myString):
 
 def main():
     print('Enter your name:')
+    x=""
     x = input()
-    
+    if x =="": x="anthony"
     dir=get_dir()
     rename_alll(dir, x)
     try_all_icons(dir, x)
