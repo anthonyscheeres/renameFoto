@@ -61,27 +61,41 @@ def retrieve_file_paths(dirName):
     return filePaths
 
 def catch_is_already_not_jfif(filename):
+   
     new_file_name=filename
     #catch the error
     try:
-        file_name=get_mirror(filename)
+        new_file_name=get_mirror(filename)
     except:
         pass
     return new_file_name
     
 
 def remove_string(filename, subString, x):
+
+
+   
     filearray=filename.split(subString, 1)
-  
+    this = "["+x+"]"+filearray[0]+filearray[-1]
+
+    if filearray[0]==filearray[-1]:
+        this = "["+x+"]"+filename
+
     
-    return "["+x+"]"+filearray[0]+filearray[-1]
+    
+    return this
 
 
 def rename_wrapper(filename, dir, x):
-    new_file_name = filename
-    new_file_name = catch_is_already_not_jfif(filename)
-    new_file_name = add_own_name(new_file_name, x)
 
+    new_file_name = add_own_name(filename, x)
+  
+    
+    new_file_name = catch_is_already_not_jfif(new_file_name)
+
+
+    
+    print(new_file_name)
     if new_file_name!=filename:
         renamethis(dir, filename, new_file_name)
     
@@ -89,9 +103,10 @@ def rename_wrapper(filename, dir, x):
 
 
 def add_own_name(file_name, x):
-    print (file_name)
+    
     subString = get_mirror2(file_name)
     new_file_name=remove_string(file_name, subString, x)
+  
     return normalise_string(new_file_name)
 
 
@@ -101,15 +116,18 @@ def rename_alll(dir, x):
   
     for filename in os.listdir(dir):
         if filename.find(".py")==-1:
+            
             rename_wrapper(filename, dir, x)
 
 def normalise_string(string):
     return string.lower().strip()
 
 def get_mirror(myString):
-
+   
     if myString.find(".jfif")!=-1:
+       
         mySubString = myString.replace(".jfif", ".png")
+        print(myString + " --> "+mySubString)
         return normalise_string(mySubString)
 
     raise Exception('string should be of .jfif format. The value was: {}'.format(myString))
@@ -120,7 +138,6 @@ def get_mirror(myString):
 def get_mirror2(myString):
 
     if myString.find("[")!=-1:
-        
         mySubString = myString[myString.find("["):myString.find("]")+1]
 
         return mySubString
